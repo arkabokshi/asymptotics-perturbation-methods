@@ -1,0 +1,178 @@
+\newpage
+\chapter[Integral Representation \& dominant balance]{Integral Representations and Introduction to Dominant Balance}
+
+Part I of the course was asymptotic expansions and their properties. Part II was aymptotic expansions of integrals. Part III is aymptotic analysis of linear ODEs (with non-constant coefficients). 
+
+\subsection*{Integral representation: Bessel function}\label{sec:Bessel-integral-form}
+Derivation of 
+\begin{gather*}
+	J_0(x) = \frac{1}{\pi} \int_{0}^{\pi} \cos (x \sin t) \md t
+\end{gather*}
+from Bessel's equation
+\begin{gather*}
+	xy'' + y' + xy = 0
+\end{gather*}
+This equation has two linearly indepedent solutions:
+\begin{itemize}
+	\item $J_0(x)\rightarrow 1$ as $x \rightarrow 0$
+	\item $Y_0(x)\rightarrow -\infty$ as $x \rightarrow 0$
+\end{itemize}
+Power series can give us the approximation to $J_0(x)$ whereas we would need the more sophisticated Frobenius series to determine $Y_0(x)$ (allows non-integer powers of $x$). A more powerful method is to seek solutions of the form 
+\begin{gather*}
+	y(x) = \int_c \me^{xz} P(z) \md z
+\end{gather*}
+where we are free to choose $P(z)$ and a suitable contour $c$ in the complex plane $z$ to make this work. Our ODE then reads
+\begin{align*}
+\int_c \left[x z^2 + z + x\right] \me^{xz}P(z) \, \md z = 0 \qquad \forall \, x
+\end{align*}
+Suppose we could find a function $S(z)$ such that the integrand becomes a perfect differential, then the Bessel's equation would become
+\begin{gather*}
+	0 = \int_c 	\frac{\md}{\md z} \left[\me^{xz} S(z)\right] \md z = \left.\me^{xz} S(z) \right|_{\partial c}
+\end{gather*}
+and we'd only have to choose $c$ such that this holds (for instance, when the contour is closed or $S$ vanishes at both ends). Note that our definition of $S$ is such that
+\begin{align*}
+	\frac{\md}{\md z} \left[\me^{xz} S(z)\right] = \left(x S + S'\right)\me^{xz}  = (xz^2 + z+x) \me^{xz} P
+\end{align*}
+Since this is true for all $x$, we can equate the coefficients:
+\begin{align*}
+	S = (z^2 + 1) P \qquad \text{and} \qquad 	S' = zP
+\end{align*}
+Solving for $S$:
+\begin{gather*}
+	\frac{S'}{S} = \frac{z}{z^2+1} \\
+	\ln S(z) = \frac{1}{2} \ln (z^2+1) + \text{const.}
+\end{gather*}
+For now we assume $P(z) \neq 0$. Also, here we can get $J_0(x)$ by setting const = $0$. Note that we are not looking for a general solution, rather ``a" integral representation.
+\begin{gather*}
+	S(z) = \sqrt{z^2+1} \\
+	P(z) = \frac{1}{\sqrt{z^2+1}}
+\end{gather*}
+In summary
+\begin{gather*}
+	y(x) = \int_c \me^{xz} \frac{1}{\sqrt{z^2+1}} \md z
+\end{gather*}
+satisifes the Bessel's equation \underline{if} we can find a contour $c$ such that
+\begin{gather*}
+	\left.\me^{xz} \sqrt{z^2+1} \right|_{\partial c} = 0 \qquad \forall \, x
+\end{gather*}
+One way is to simply pick a contour that goes from $[-\mi,\mi]$ -- a vertical line segment for example. Then with the substitution $z = \mi w$ 
+\begin{align*}
+	y(x) &= \int_{-\mi}^{\mi} \me^{xz} \frac{1}{\sqrt{z^2+1}} \md z \\
+	&= \int_{-1}^{1} \me^{\mi xw} \frac{1}{\sqrt{1-w^2}} \mi \md w
+\end{align*}
+Now, is $y(x)$ equal to $J_0(x)$ or $Y_0(x)$ (multplied by some scalar) or a linear combination of both? Way to check is to evaluate $y(0)$:
+\begin{gather*}
+	y(0) = \mi \int_{-1}^{1} \frac{\md w}{\sqrt{1 - w^2}} = \mi \pi
+\end{gather*} 
+where we have made the substitution $w = \sin \theta$. Therefore
+\begin{align*}
+	y(x) = \mi \pi J_0(x)
+\end{align*}
+and 
+\begin{align*}
+	J_0(x) &= \frac{1}{\mi \pi} y(x) = \frac{1}{\pi} \int_{-1}^{1}  \frac{\me^{\mi xw}}{\sqrt{1-w^2}} \md w \\
+	&= \frac{2}{\pi} \int_{0}^{1} \frac{\cos (xw)}{\sqrt{1 - w^2}} \md w \\
+	&= \frac{2}{\pi} \int_{0}^{\pi/2} \cos (x \sin t ) \md t
+\end{align*}
+since the odd $\sin$ function goes to zero and we have made the change $w = \sin t$. Finally, noting 
+\begin{gather*}
+	\int_{0}^{\pi/2} \cos (x \sin t) \md t = \int_{\pi/2}^{\pi} \cos (x \sin t) \md t
+\end{gather*}
+with the help of the substitution $u = \pi - t$, we can show that
+\begin{align*}
+	J_0(x) &= \frac{1}{\pi} \left[\int_{0}^{\pi/2} + \int_{\pi/2}^{\pi}\right] \\
+	&= \frac{1}{\pi} \int_{0}^{\pi} \cos (x \sin t) \md t
+\end{align*}
+\begin{itemize}
+	\item Note that at the end points $P(z) \rightarrow \infty$. It may be worth thinking if this is OK since the integral is fine as we approach the ends points from the interior side where the function is not badly behaved.
+	\item For calculation of $Y_0(x)$, which involves a different contour, see book by Olver on Intro to Asymptotics and Special Functions (p.241)
+\end{itemize}
+
+\subsection*{Local analysis of second order ODE}
+The goal is to obtain asymptotic behavior of $y(x)$ directly from ODE (second order, linear, homogeneous) rather than from integral representation. 
+\begin{gather*}
+	y'' + p_1(x) y' + p_0(x) y = 0
+\end{gather*}
+The downside of this method is that we won't know the constant (unlike the integral representation). But often this is good enough if we wish to understand scaling behavior etc. Classification of ``singular points'':
+\begin{itemize}
+	\item Ordinary point: $x_0$, where $p_1(x)$ and $p_0(x)$ are analytic in a neighborhood of $x_0$ (i.e. have convergent power series expansions there). Then the linearly independent solutions $y_1(x)$ and $y_2(x)$ are also expressible as convergent Taylor series.
+	\item Regular singular point: Not an ordinary point, but $(x-x_0)p_1(x)$ and $(x-x_0)^2 p_0(x)$ are analytic around $x_0$. The solutions can be expressed as Frobenius series (p.63 B\&O). 
+	\item Irregular singular point: Neither of the above. There is no general theory. This is the case of interest.
+\end{itemize}
+\paragraph{Example:} Consider
+\begin{gather*}
+	x^n y'' + xy' + y = 0 \qquad n \geq 0, \text{integer}
+\end{gather*}
+in the vicinity of $x_0=0$. Rewrite
+\begin{gather*}
+	y'' + x^{1-n}y' + x^{-n}y = 0
+\end{gather*}
+I'll get ordinary point if $1-n \geq 0$ and $-n \geq 0$. This implies $n \leq 0$. From the original constraint $n \geq 0$, the only possibility is when $n=0$. \\
+\ \newline
+Next $x_0 = 0$ is a regular singular point if $n=1$ or $n=2$. \\
+\ \newline
+Finally, $x_0=0$ is an irregular singular point if $n=3,4,5, \dots$. 
+
+\paragraph{Example:} Classify the singular point at $x_0 = \infty$ for Airy's equation
+\begin{gather*}
+	y'' = xy
+\end{gather*}
+The standard move is to bring the infinity into the origin by letting $t = 1/x$. Then classify $t=0$. 
+\begin{align*}
+	\frac{\md y}{\md x} &= \frac{\md y}{\md t} \frac{\md t}{\md x} = -t^2 \dot{y}  \\
+	\frac{\md^2y}{\md x^2}&= \frac{\md}{\md t} \left(-t^2 \dot{y}\right) \frac{\md t}{\md x} = t^2 (2t \dot{y} +t^2 \ddot{y})
+\end{align*}
+The Airy's equation now reads
+\begin{gather*}
+	t^4 \ddot{y} + 2 t^3 \dot{y} = \frac{1}{t} y
+\end{gather*}
+In standard form
+\begin{gather*}
+	\ddot{y} + \frac{2}{t} \dot{y} - \frac{1}{t^5} y = 0
+\end{gather*}
+This is an irregular singular point at $t=0$ and hence at $x_0 = \infty$. 
+
+\subsection*{Asymptotic expansion near an irregular singular point}
+
+The strategy is to proceed with the ansatz
+\begin{align*}
+	y = \me^{S(x)}
+\end{align*}
+Then 
+\begin{align*}
+	y' &= S'\me^S \\
+	y'' &= \left[S'' + (S')^2\right] \me^S
+\end{align*}
+Next examine ODE for $S$ and usually $S'' \ll (S')^2$ and we can start neglecting terms.
+
+\paragraph{Example:} 
+\begin{gather*}
+	x^4 y'' + 2x^3 y' - y = 0
+\end{gather*}
+This equation has exact solutions that are $\me^{\pm 1/x}$. But we proceed without this knowledge. This equation has an irregular singular point at $x_0=0$. Proceeding with our solution $y = \me^S$ we arrive at
+\begin{gather*}
+	x^4\left[S'' + (S')^2\right] + 2x^3 S' - 1 = 0
+\end{gather*}
+which gives the standard form
+\begin{gather*}
+	S'' + (S')^2 + \frac{2}{x}S' - \frac{1}{x^4} = 0
+\end{gather*}
+The idea of \underline{dominant balance} is that two terms balance each other as $x_0 \rightarrow 0$ whereas the others are asymptotically small. Now we can see that $1/x^4$ is a big term. We can compare this with the other terms and check for consistency:
+
+\begin{enumerate}
+	\item Balance the last two terms: This means that $S' = O(1/x^3)$ and
+	\begin{gather*}
+		(S')^2 = O\left(\frac{1}{x^6}\right) \gg \frac{1}{x^4}
+	\end{gather*}
+	Hence this is not consistent.
+	\item Balance the first and last: also inconsistent.
+	\item Balance the second and last: 
+	\begin{gather*}
+		S' = \pm \frac{1}{x^2} \quad \implies S = \mp \frac{1}{x}\\
+		S'' = O\left(\frac{1}{x^3}\right) \ll \frac{1}{x^4} \\
+		\frac{2}{x}S'= O \left(\frac{1}{x^3}\right) \ll \frac{1}{x^4}
+	\end{gather*} 
+	The ordering is consistent.
+\end{enumerate}
+Normally this would be our first approximation to $S(x)$, but our solution here, $y = e^{\pm 1/x}$, is exact.
+

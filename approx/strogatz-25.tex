@@ -1,0 +1,116 @@
+\chapter{Difference Equations and Multiple Scales}
+
+Arises in fields where, for instance, time is measured in integers (e.g. stock prices measured daily, or recurrence relations). 
+
+\paragraph{Example:}
+\begin{gather}
+	y_{n+1} - 2y_n + y_{n-1} = -2\omega^2 (y_n + \epsilon y_n^3) \label{eqn:wk25-ode}\\
+0 < \epsilon \ll 1 \qquad 0 < \omega <1 \nonumber 
+\end{gather}
+This could be viewed as a discretization of Duffing's equation $\ddot{u} + u + \epsilon u^3 = 0$. To see this, let
+\begin{gather*}
+	t = n \Delta t \\
+	u(t) = u(n \Delta t) = y_n
+\end{gather*}
+where $\Delta t$ is the step-size. The derivatives are
+\begin{align*}
+	\dot u &\approx \frac{u(t+\Delta t) - u(t)}{\Delta t} = \frac{u([n+1]\Delta t) - u(n\Delta t)}{\Delta t} \\
+	& \approx \frac{y_{n+1}-y_n}{\Delta t} \\
+	\ddot u &\approx \frac{1}{\Delta t} \left[ \left(\frac{y_{n+1} - y_n}{\Delta t}\right) - \left(\frac{y_{n} - y_{n-1}}{\Delta t}\right)\right] \\
+	& \approx \frac{y_{n+1} - 2 y_n + y_{n-1}}{(\Delta t)^2}
+\end{align*} 
+Therefore the Duffing equation has the discrete analog\footnote{Worth noting that the `logistic map' and its continuous version the `logistic differential equation' have very different behavior.}
+\begin{gather*}
+	y_{n+1} - 2 y_n + y_{n-1} + (\Delta t)^2 (y_n + \epsilon y_n^3) = 0
+\end{gather*}
+This is identical to eqn. \ref{eqn:wk25-ode} with $(\Delta t)^2 = 2 \omega^2$. By analogy with the Duffing equation, we expect the solutions for $y_n$ to be nearly sinusoidal, with a frequency that depends on amplitude. Let
+\begin{gather*}
+	s = \epsilon n
+\end{gather*}
+be the slow time (like $\tau = \epsilon t$ in the continuous case). The fast time time is simply 1. First assume
+\begin{gather*}
+	y_n \sim Y_0(n,s) + \epsilon Y_1(n,s) + \dots 
+\end{gather*}
+then
+\begin{align*}
+	y_{n \pm 1} &\sim Y_0(n\pm 1,s \pm \epsilon) + \epsilon Y_1 (n\pm 1,s\pm \epsilon) + \dots \\
+	& \sim Y_0(n\pm 1, s) \pm \epsilon \pd_s Y_0 (n \pm 1,s) + \epsilon Y_1 (n\pm 1, s) + O(\epsilon^2)
+\end{align*}
+Note that the $\epsilon$ correction from the $Y_1$ term is multipled with the $\epsilon$ and lumped into the $O(\epsilon^2)$ correction. With this the $O(1)$ ODE reads
+\begin{align*}
+	Y_0(n+1,s) - 2Y_0(n,s) + Y_0(n-1,s) = -2 \omega^2 Y_0(n,s)
+\end{align*}
+To ease notation, let $a_n = Y_0(n,s)$. Then
+\begin{align*}
+	a_{n+1} - 2 (1-\omega^2) a_n + a_{n-1} = 0
+\end{align*}
+This is a linear second order difference equation with constant coefficients. In a way analogous to
+\begin{gather*}
+	\me^{rt} = (\me^r)^t \rightarrow (\me^r)^n
+\end{gather*}
+we guess
+\begin{gather*}
+	a_n = \lambda^n
+\end{gather*}
+to derive
+\begin{gather*}
+	\lambda^{n+1} - 2 b \lambda^n + \lambda^{n-1} = 0, \qquad 0<b<1
+\end{gather*}
+where $b = 1 - \omega^2$. The above quadratic is easily solved to yield
+\begin{gather*}
+	\lambda = b \pm \mi \sqrt{1-b^2}
+\end{gather*}
+In the complex plane we may represent as
+\begin{gather*}
+	|\lambda| = 1 \qquad \cos \alpha = \frac{b}{1} = 1 - \omega^2 \\
+	\lambda = \me^{\pm \mi \alpha }
+\end{gather*}
+So my general solution to the $O(1)$ difference equation is
+\begin{align*}
+	a_n &= c_1 \me^{\mi \alpha n} + c_2 \me^{-\mi \alpha n} \\
+	&= A \cos (\alpha n + \theta)
+\end{align*}
+Also note that `constants' are constant on the fast time-scale; strictly
+\begin{gather*}
+	A = A(s) \qquad \theta = \theta(s)
+\end{gather*}
+In summary
+\begin{gather*}
+	Y_0(n,s) \sim A(s) \cos (\alpha n + \theta(s)) \\
+	\cos \alpha = 1 - \omega^2
+\end{gather*}
+At $O(\epsilon)$, the governing ODE is
+\begin{align*}
+	Y_1(n+1) - 2(1-\omega^2)Y_1 + Y_1(n-1) =& -2\omega^2 Y_0^3 \\
+	 & + \frac{\pd Y_0(n-1)}{\pd s} \\
+	 & - \frac{\pd Y_0 (n+1)}{\pd s} 
+\end{align*}
+wherein $Y_0$ and $Y_1$ are indexed at $(n,s)$ unless otherwise specified. Now expand the right hand side and look for resonant terms proportional to $\cos(\alpha n + \theta)$ and $\sin (\alpha n + \theta)$. Defining $\phi = \alpha n + \theta$
+\begin{align*}
+	-2 \omega^2 Y_0^2 + \pd_s Y_0(n-1) - \pd_s Y_0(n+1) = &-\frac{1}{2} \omega^2 A^3 [\cos(3\phi) + 3 \cos \phi ] \\
+	& + A' \cos (\phi - \alpha) - A \theta' \sin (\phi - \alpha) \\
+	& - A' \cos (\phi + \alpha) + A \theta' \sin (\phi + \alpha) \\
+	=& -\frac{3}{2} \omega^2 A^3 \cos \phi + \dots \\
+	& + 2A' \sin \phi \sin \alpha \\
+	& + 2A \theta' \cos \phi \sin \alpha 
+\end{align*}
+{\bf NB.} In taking the \underline{$s$ derivative}, \emph{no discretization} was performed: this is to say that $Y_0$ changes sufficiently slowly in in $s$ to be able to regard the variation as continuous. The slow time equations, setting the secular terms to zero, read
+\begin{gather*}
+	\theta'(s) = \frac{3}{4} \frac{\omega^2 A^2}{\sin \alpha}, \qquad A'(s) = 0
+\end{gather*}
+This implies that on the slow time-scale, $A(s)=A_0$ (const.) and further 
+\begin{gather*}
+	\theta(s) = \frac{3}{4} \frac{\omega^2 A_0^2}{\sin \alpha} s + \theta_0
+\end{gather*}
+where
+\begin{align*}
+	\sin \alpha &= \sqrt{1 - \cos^2 \alpha} = \sqrt{1 - (1-\omega^2)}\\
+	&= \omega \sqrt{2 - \omega^2}
+\end{align*}
+Simplifying 
+\begin{align*}
+	\theta(s) &= \underbrace{\frac{3}{4} \frac{\omega A_0^2}{\sqrt{2 - \omega^2}}}_\gamma s + \theta_0 \\
+	&= \gamma \epsilon n + \theta_0
+\end{align*}
+{\bf NB. } For a linearly stable system, a weak nonlinearity (e.g. small forces) does not change anything. So we want the system to be \emph{neutral} to begin with: the \emph{small} nonlinear terms can accumulate over a long time scale. For example, perturbations to a simple harmonic motion. These statements are mostly true for multiple-timescales and Poincar\'e-Lindstedt, \emph{not} WKB or Boundary Layer.
+

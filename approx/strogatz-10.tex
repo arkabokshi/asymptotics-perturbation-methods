@@ -1,0 +1,146 @@
+\chapter[Perturbation for algebraic equations]{Perturbation methods for Algebraic equations}\label{sec:pert-algebra}
+
+Part IV of the course. 
+
+\paragraph{Example 1:} Solve the ``regular'' problem
+\begin{gather*}
+	x^2 + \epsilon x - 1=0 \qquad \epsilon \ll 1
+\end{gather*}
+The exact solution is of course
+\begin{align*}
+	x &= -\frac{\epsilon}{2} \pm  \sqrt{1 + \frac{\epsilon^2}{4}} \\
+	&= -\frac{\epsilon}{2} \pm \left(1 + \frac{\epsilon^2}{8} \dots \right)
+\end{align*}
+where we have used the Binomial theorem 
+\begin{gather*}
+	(1 + \delta)^\alpha = 1 + \alpha \delta + \frac{\alpha(\alpha-1)}{2!} \delta^2 + \dots 
+\end{gather*}
+which is valid for $|\alpha| < 1$. Therefore the series converge for $\epsilon < 2$. 
+
+\paragraph{Method 1:} Expansion in a power series in $\epsilon$, i.e. try
+\begin{gather*}
+	x = 1 + \epsilon x_1 + \epsilon^2 x_2 + \dots 
+\end{gather*}
+disregarding $O(\epsilon^3)$. We know $x_0 = \pm 1$ which is easily seen by setting $\epsilon=0$. Expanding
+\begin{gather*}
+	(1 + \epsilon x_1 + \epsilon^2 x_2 + \dots)^2 + \epsilon (1+ \epsilon x_1 + \epsilon^2 x_2 + \dots ) - 1 = 0 + 0 \epsilon + 0 \epsilon^2 + \dots \\
+	(1 + \epsilon^2 x_1^2 + 2 \epsilon x_1 + 2 \epsilon^2 x_2) + (\epsilon + \epsilon^2 x_1) - 1 = 0
+\end{gather*}
+Equating powers:
+\begin{align*}
+	O(\epsilon^0) &: \quad 1 - 1 = 0 \\
+	O(\epsilon^1) &: \quad 2x_1 + 1 = 0 \\
+	O(\epsilon^2) &: \quad x_1^2 + 2x_2 + x_1 = 0 
+\end{align*}
+Therefore
+\begin{align*}
+	x_1 = -\frac{1}{2}, \qquad x_2 = \frac{1}{8}
+\end{align*}
+yielding
+\begin{gather*}
+	x = 1 - \epsilon\frac{1}{2} + \epsilon^2 \frac{1}{8} + \dots 
+\end{gather*}
+{\bf NB} Here we guessed the asymptotic sequence which was ordered as
+\begin{gather*}
+	{1,\epsilon,\epsilon^2,\epsilon^3,\dots}
+\end{gather*}
+such that as $\epsilon \rightarrow 0$, $1 \gg \epsilon \gg \epsilon^2 \gg \epsilon^3,\dots$ and this would typically work for most ``regular'' problems.
+
+\paragraph{Method 2:} This is an iteration method which is useful when it is difficult to guess the sequence. We proceed to rewrite our problem as
+\begin{gather*}
+	x^2 = 1 - \epsilon x
+\end{gather*}
+and start with with a na\"{i}ve guess say $x_0 = 1$ (and take the plus root):
+\begin{align*}
+	x_{n+1} = \sqrt{1 - \epsilon x_n}
+\end{align*}
+and
+\begin{align*}
+	x_1 &= \sqrt{1 - \epsilon} \\
+	&\sim  1 - \frac{\epsilon}{2} \underbrace{- \frac{\epsilon^2}{8}}_\text{!!} + \dots 
+\end{align*}
+{\bf NB} This is wrong! We should truncate at $O(\epsilon)$. Next
+\begin{align*}
+	x_2 &= \sqrt{1 - \epsilon\left[1 - \frac{\epsilon}{2} + O(\epsilon^2)\right]} \\
+	&= \left[1 - \left(\epsilon - \frac{\epsilon^2}{2}\right) + O(\epsilon^3)\right]^{1/2} \\
+	&= 1 - \frac{\epsilon}{2} + \frac{\epsilon^2}{8} + \dots 
+\end{align*}
+So this method is somewhat tricky and needs to be carefully wielded (plus requires increasing amount of work at each stage). 
+
+
+\paragraph{Example 2:} Consider now a ``singular'' (as opposed to ``regular'') problem:
+\begin{gather*}
+	\epsilon x^2 + x - 1 = 0
+\end{gather*}
+Clearly if $\epsilon = 0$, $x = 1$. But we should obtain two roots for $\epsilon \neq 0 $ (even if $\epsilon \ll 1$). Such big qualitative change are typical of singularly perturbed problems. Consider dominant balance: may be the $\epsilon x^2$ term is big for the missing root?
+\begin{enumerate}
+	\item If $\epsilon x^2 \sim 1$, then $x \gg 1$ which is not consistent with the ordering.
+	\item $\epsilon x^2 \sim x$ would instead imply $x \gg 1$ which is consistent. 
+\end{enumerate}
+{\color{red} [To do]} If we solve this, we would derive
+\begin{gather*}
+	x \sim -\frac{1}{\epsilon} - 1 + \epsilon - 2\epsilon^2 + \dots 
+\end{gather*}
+
+\paragraph{Example 3:} Next consider non-integer powers
+\begin{gather*}
+	(1-\epsilon)x^2 - 2x+1 = 0
+\end{gather*}
+As $\epsilon = 0$, we get $x^2 - 2x+1 = 0$, i.e. $(x-1)^2 = 0$. Double roots typically spell danger! To illustrate, we perform the na\"{i}ve expansion about $x=1$. Try
+\begin{gather}
+	x = 1 + \epsilon x_1 + \dots \label{eqn:wk10-ex3}
+\end{gather}
+to derive
+\begin{align*}
+	(1-\epsilon)(1+\epsilon x_1 + \dots)^2 - 2(1+ \epsilon x_1 + \dots ) + 1 = 0
+\end{align*}
+Collecting orders:
+\begin{align*}
+	O(\epsilon^0) &: \quad 1 - 2+1 = 0 \\
+	O(\epsilon^1) &: \quad 2x_1 - 1 + 2x_1 = 0
+\end{align*}
+which is a contradiction! This is since our anstaz -- eqn. \ref{eqn:wk10-ex3} -- was wrong. In this case we want to try 
+\begin{gather*}
+	x \sim 1 + \epsilon^{1/2} + \epsilon + \epsilon^{3/2} + \dots 
+\end{gather*}
+It is wiser to assume
+\begin{gather*}
+	x \sim 1 + \epsilon^\alpha x_1 + \epsilon^\beta x_2 + \dots 
+\end{gather*}
+or more generally 
+\begin{gather*}
+	x \sim 1 + \phi_1(\epsilon)x_1 + \phi_2 (\epsilon)x_2 + \dots 
+\end{gather*}
+{\color{red} [To do]} Try either approach, or iteration with $\epsilon^{1/2}$.
+
+\paragraph{Example 4:} Logarithms! Solve
+\begin{gather*}
+	x \me^{-x} = \epsilon \qquad \text{as} \quad \epsilon \rightarrow 0^+
+\end{gather*}
+{\color{red} [To do]} We can begin by sketching the curve $y(x) = x\me^{-x}$. The intersection of $y(x) = \epsilon$ at two places give us the two solutions. And as $\epsilon \rightarrow 0$, one roots goes to 0 and the other goes to $\infty$. For the root near $x=0$, we can use iteration:
+\begin{align*}
+	x_{n+1} &= \epsilon \me^{x_n} \\
+	x_1 &= \epsilon \\
+	x_2 &= \epsilon \me^{\epsilon} = \epsilon(1+ \epsilon + \dots ) 
+\end{align*}
+and we end up with
+\begin{gather*}
+	x \sim \epsilon + \epsilon^2 + \frac{3}{2} \epsilon^3 + \frac{8}{3} \epsilon^4 + \dots 
+\end{gather*}
+The other root: try dominant balance.
+\begin{gather*}
+	\underbrace{\ln x - x}_\ll  = \ln \epsilon
+\end{gather*}
+Therefore
+\begin{gather*}
+	x \sim \ln \epsilon^{-1}
+\end{gather*} 
+Dominant balance then suggests the iteration
+\begin{align*}
+	x_{n+1} &= \ln x_n + \ln \frac{1}{\epsilon} \\
+	x_1 &= \ln \ln \frac{1}{\epsilon} + \ln \frac{1}{\epsilon} \\
+	x_2 &= \ln x_1 + \ln \frac{1}{\epsilon} \\
+	&= \ln \ln \frac{1}{\epsilon} + \ln \left[1 + \frac{\ln \ln (1/\epsilon)}{\ln (1/\epsilon)}\right] + \ln \frac{1}{\epsilon} \\
+	&\sim  \ln \frac{1}{\epsilon} + \ln \ln \frac{1}{\epsilon} + \frac{\ln \ln (1/\epsilon)}{\ln (1/\epsilon)} \dots 
+\end{align*}
+

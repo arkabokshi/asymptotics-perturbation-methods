@@ -1,0 +1,61 @@
+\documentclass{book}
+\usepackage{fancyhdr}
+\renewcommand{\chaptername}{Lecture}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{chemfig}
+\usepackage{xcolor}
+\usepackage[toc,page]{appendix}
+\usepackage{cancel}
+\usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage{chngcntr}
+\counterwithout{equation}{chapter}
+%\counterwithout{figure}{part}
+\usepackage{imakeidx}
+\makeindex[intoc,options=-s ./index]
+\usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	%filecolor=magenta,      
+	urlcolor=blue,
+}
+\usepackage{cleveref} % MUST BE LOADED AFTER HYPERREF
+\usepackage{mathtools}
+% Operators
+\newcommand{\gradu}[1]{\nabla u_{#1}}
+\newcommand{\du}[1]{\mathrm{d}u_{#1}}
+\newcommand{\vece}[1]{{\bf e}_{#1}}
+\newcommand{\vecE}[1]{{\bf e}^{#1}}
+\newcommand{\drdu}[1]{\frac{\partial {\bf r}}{\partial u_{#1}}}
+\newcommand{\rvec}{{\bf r}}
+\newcommand{\uvec}{{\bf u}}
+\newcommand{\dxdy}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\Sha}{\mathrm{D}}
+\newcommand{\md}{\mathrm{d}}
+\newcommand{\mi}{\mathrm{i}}
+\newcommand{\me}{\mathrm{e}}
+\newcommand{\mI}{\mathrm{I}}
+\newcommand{\mD}{\mathrm{D}}
+\newcommand{\pd}{\partial }
+\newcommand{\mF}{\mathrm{F}}
+\newcommand{\vect}[1]{{\bf {#1}}}
+\newcommand{\Kappa}{\mathcal{K}}
+\newcommand{\intfac}{\mathrm{e}^{-\alpha \! \int \! p \, \mathrm{d}x}}
+\newcommand{\ap}{\alpha p}
+\newcommand{\laplace}[1]{\mathcal{L}\left\{{#1}\right\}}
+\newcommand{\erf}{\text{erf}}
+\newcommand{\erfc}{\text{erfc}}
+\newcommand{\krho}{k \rho}
+\newcommand{\tbar}{\bar{t}}
+\newcommand{\that}{\hat{t}}
+\newcommand{\ttil}{\tilde{t}}
+\newcommand{\ybar}{\bar{y}}
+\newcommand{\Ham}{\mathcal{H}}
+\newcommand{\Lag}{\mathcal{L}}
+\newcommand{\F}{\mathcal{F}}

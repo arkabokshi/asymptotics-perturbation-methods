@@ -1,0 +1,87 @@
+\chapter{Dominant Balance (contd.)}
+
+\paragraph{Example:} Solve
+\begin{gather*}
+	y'' = \frac{1}{x^3} y 
+\end{gather*}
+asymptotically as $x \rightarrow 0^{+}$. We have an irregular singular point at $x_0=0$ (since more singular than $1/x^2$). We lead with the solution
+\begin{gather*}
+	y(x) = \me^{S(x)}
+\end{gather*}
+Note that if $1/x^3$ was instead some constant, our solution would have looked like $e^\lambda$. This form is what motivates our ansatz. Then
+\begin{align}\label{eqn:wk09-Seqn}
+	(S')^2 + S'' = \frac{1}{x^3}
+\end{align}
+Now usually two of the terms are bigger than the third, but worthwhile noting that in cases all the terms may be in balance. Leading with the ansatz $(S')^2 \gg S''$ we arrive at
+\begin{gather}
+	S' \sim \pm \frac{1}{x^{3/2}} \nonumber \\
+	\implies S = \mp 2x^{-1/2} + c(x) \label{eqn:wk09-first-order}
+\end{gather}
+Note that
+\begin{gather*}
+\underbrace{O\left(\frac{1}{x^3}\right)}_{(S')^2} \gg \underbrace{O\left(\frac{1}{x^{5/2}}\right)}_{S''}
+\end{gather*}
+which means that our ordering is consistent.
+\begin{itemize}
+	\item Since $S$ is singular as $x \rightarrow 0^{+}$, we do not need to put the constant (correction term) which is asymptotically smaller, i.e. $c(x) \ll x^{-1/2}$.
+	\item As we derive higher order terms, we would find that the singularities become weaker, providing us with a natural place to stop.
+\end{itemize} 
+We will focus on eqn. \ref{eqn:wk09-first-order} with the ``+'' sign for now: this is the exponentially growing term and of more interest than the other decaying term. Now
+\begin{align*}
+	S &= 2x^{-1/2} + c(x) \quad &c \ll x^{-1/2}\\
+	S' &= -x^{-3/2} + c'(x) \quad &c' \ll x^{-3/2}\\
+	S'' &= \frac{3}{2}x^{-5/2} + c''(x) \quad &c'' \ll x^{-5/2}
+\end{align*}
+as $x \rightarrow 0^{+}$. Now usually differentiation can cause trouble, but in the case of $x$ to some power, this is alright. We insert these into eqn. \ref{eqn:wk09-Seqn} to derive
+\begin{align*}
+	\underbrace{\frac{3}{2}x^{-5/2} + c''}_{\gg} + \cancel{x^{-3}} + \underbrace{(c')^2 - 2c'x^{-3/2}}_{\ll} = \cancel{x^{-3}}
+\end{align*}
+We are left with
+\begin{gather*}
+	\frac{3}{2}x^{-5/2} \sim 2c'x^{-3/2} \\
+	\implies c(x) \sim \ln x
+\end{gather*}
+At this stage we should do a consistency check: using L'Hopital's rule
+\begin{align*}
+	\lim\limits_{x\rightarrow 0^+} \frac{\ln x}{x^{-1/2}} = -2x^{1/2} \rightarrow 0
+\end{align*}
+etc. More precisely
+\begin{align*}
+	c(x) = \frac{3}{4} \ln x + d(x) \qquad d(x) \ll \ln x
+\end{align*}
+as $x \rightarrow 0^+$. Altogether
+\begin{align}\label{eqn:wk09-second-order}
+	S(x) = 2x^{-1/2} + \frac{3}{4}\ln x + d(x)
+\end{align}
+with each term milder (less singular) than the previous term. Continuing in this way by inserting eqn. \ref{eqn:wk09-second-order} into eqn. \ref{eqn:wk09-Seqn} we derive
+\begin{gather*}
+	\underbrace{-\frac{3}{16}x^{-2} + d''}_\gg + \underbrace{(d')^2 + \frac{3}{2}x^{-1} d'}_\ll  - 2x^{-3/2}d' = 0 \\
+	-\frac{3}{16} x^{-2} + \underbrace{\frac{3}{2}x^{-1}d' - 2 x^{-3/2} d'}_\ll  = 0
+\end{gather*}
+The balancing equation yields
+\begin{gather*}
+	d(x) \sim -\frac{3}{16}x^{1/2} + e
+\end{gather*}
+Collecting terms
+\begin{gather*}
+	S(x) = 2x^{-1/2} + \frac{3}{4}\ln x + e + \delta(x) \\
+	\lim\limits_{x \rightarrow 0^+}\delta(x) = - \frac{3}{16}x^{1/2} \rightarrow 0
+\end{gather*}
+This is a good place to stop since the correction term is no longer singular and our solution of interest
+\begin{align*}
+	y(x) &= \me^{S(x)} \\
+		&=  c_1 x^{3/4} \me^{2x^{-1/2}}  \me^{\delta(x)} \\
+		&\sim c_1 x^{3/4} \me^{2x^{-1/2}} \left(1 - \frac{3}{16}x^{1/2}\right)
+\end{align*} 
+for $\delta \ll 1$ and as $x \rightarrow 0^+$. This is only the growing solution. To obtain the full asymptotic expansion, we isolate the ``leading order'' (the wildly varying singular term) and denote everything else by $w(x)$, i.e.\footnote{B\&O call this ``peeling off the leading behavior''.}
+\begin{gather*}
+	y(x) = c_1 x^{3/4}\me^{2x^{-1/2}} w(x)
+\end{gather*}
+We can proceed to solve for $w(x)$ using the series (p.84)
+\begin{gather*}
+	w(x) = \sum_{n=0}^{\infty} a_n (x^{1/2})^n
+\end{gather*}
+{\bf NB} This method does not give us the prefactor $c_1$, just the $x$ dependence. To determine the pre-factor, techniques like the ``integral representation'' must be employed.
+
+
+

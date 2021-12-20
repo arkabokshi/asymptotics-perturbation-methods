@@ -1,0 +1,109 @@
+\chapter{Corner Layers}
+What if the BL does not appear at $x=0$ or $x=1$ (i.e. boundary of domain) and the rapid variation appears somewhere in the interior of the domain?
+
+\paragraph{Example:} 
+\begin{gather*}
+	\epsilon y'' + xy' - y = 0 \qquad -1\leq x \leq 1 \\
+	y(-1) = 1 \qquad y(1) = 2
+\end{gather*}
+In the sub-interval $x \in [-1,0)$, $a(x)=x<0$, so expect the BL to occur at the right end point. Likewise, in the sub-interval $x \in (0,1]$, $a(x)>0$ and the BL is at the left end point. Hence some kind of ``interior layer'' occurs at $x=0$. The point $x=0$ is referred to as a ``turning point'' since a change in the sign of $a(x)$ occurs. \\
+\ \newline
+In the \underline{outer region}, the governing equation at $O(\epsilon^0)$ is
+\begin{gather*}
+	xy_0' - y_0 = 0
+\end{gather*}
+Separation of variable yields
+\begin{gather*}
+	y_0 = cx
+\end{gather*}
+These are straight line solutions going through the origin. Since the BL is at $x=0$, we can safely apply the BC at both ends. 
+\begin{align*}
+	y_0^R = 2x \qquad y_0^L = -x
+\end{align*}
+Note that the outer solution ($y^L_0$ and $y^R_0$) are continuous at $x=0$, but has a discontinuity in the derivative. It is called a ``corner layer'' for this reason -- the two slopes are meeting at a corner (as $\epsilon \rightarrow 0^+$). \\
+\ \newline
+The next order of business is to find the scale-length $\delta = \delta(\epsilon)$ in the \underline{inner layer}. We re-write the ODE in terms of the re-scaled variable $X = x/\delta$. This yields
+\begin{gather*}
+	\epsilon \frac{1}{\delta^2} Y'' + X\delta \frac{1}{\delta} Y' - Y = 0
+\end{gather*}
+It is apparent that the second and third terms are of the same order. Therefore it may be that the dominant balance argument involves all three terms.
+\begin{gather*}
+	\frac{\epsilon}{\delta^2} \approx 1 \approx 1
+\end{gather*}
+The inner layer ODE is then
+\begin{gather*}
+	Y_{XX} + X Y_X - Y = 0
+\end{gather*}
+with $\delta = \sqrt{\epsilon}$. The general solution of this can be written in terms of \emph{parabolic cylinder functions}\footnote{Related to quantum mechanical harmonic oscillators and Hermite polynomials.}. Our trial solution
+\begin{gather*}
+	Y = \me^{-X^2/4} W
+\end{gather*}
+yields
+\begin{align*}
+	Y' &=  \me^{-X^2/4} \left(W' - \frac{XW}{2} \right)\\
+	Y'' &= \me^{-X^2/4} \left(W'' - XW' - \frac{W}{2} + \frac{X^2 W}{4} \right)
+\end{align*}
+leading to the ODE
+\begin{gather} \label{eqn:wk15-pce}
+	W'' + \left(-\frac{3}{2} - \frac{X^2}{4}\right)W= 0
+\end{gather}
+which can be solved for $W(X)$ to determine $Y(X)$. The above equation has a known solution in terms of the parabolic cylinder function:
+\begin{gather*}
+	W(X) = A D_\nu (X) + B D_\nu (-X)
+\end{gather*}
+where $\nu + 1/2 = -3/2$. We next find $A$ and $B$ by matching the inner solution to $y^L$ and $y^R$. As we go the overlap region where the matching takes place, $X \rightarrow \pm \infty$. So we need to understand the large $X$ behaviour of $D_{-2}$. Quoting B\&O
+\begin{align*}
+	D_\nu (t) &\sim t^\nu \me^{-t^2/4} \quad &t \rightarrow \infty \\
+	D_\nu (-t) &\sim \frac{1}{t^{\nu+1}} \me^{t^2/4} \frac{\sqrt{2\pi}}{\Gamma(-\nu)} \quad &t \rightarrow \infty
+\end{align*}
+The above results can be derived by taking the asymptotic behavior of eqn. \ref{eqn:wk15-pce} as done in the earlier part of this course (integral representation or $y = \me^S$ etc). 
+
+\begin{align*}
+	Y(X) &\sim \me^{-X^2/4} \left[A \frac{1}{X^2} \me^{-X^2/4} + BX \me^{X^2/4} \sqrt{2\pi}\right] \\
+	&\sim \underbrace{A \frac{1}{X^2} \me^{-X^2/2}}_\text{TST} + B \sqrt{2\pi} X \\
+	& \sim B \sqrt{2\pi} X
+\end{align*}
+Likewise
+\begin{gather*}
+	Y(X) \sim -A \sqrt{2\pi} X
+\end{gather*}
+as $X \rightarrow -\infty$. Matching the left boundary
+\begin{gather*}
+	-X \sqrt{\epsilon} = -A \sqrt{2\pi} X \\
+	A = \sqrt{\frac{\epsilon}{2 \pi}}
+\end{gather*}
+Similarly, at the right boundary
+\begin{gather*}
+	B = 2 \sqrt{\frac{\epsilon}{2 \pi}}
+\end{gather*}
+Pulling everything together
+\begin{align*}
+	Y_\text{inn} & \sim \sqrt{\frac{\epsilon}{2 \pi}}\me^{-{x^2}/(4\epsilon)} \left[D_{-2}\left(\frac{x}{\sqrt{\epsilon}}\right) + 2 D_{-2}\left(-\frac{x}{\sqrt{\epsilon}}\right)\right] \\
+	y^L_\text{out} &\sim -x \\
+	y^R_\text{out} &\sim 2x
+\end{align*}
+On the right boundary (as well as the left boundary)
+\begin{align*}
+	y_c(x,\epsilon) &= Y_\text{inn} + y_\text{out}^R - y_\text{match} \\
+	&=Y_\text{inn} + 2x - 2x \\
+	&= Y_\text{inn}
+\end{align*}
+i.e. the inner solution gives the correct asymptotic in the outer region as well! This is the uniformly valid solution. \\
+\ \newline
+{\color{red} [To do]} There is an alternative way of solving this: first note that 
+\begin{gather*}
+	y = c_1 x
+\end{gather*} 
+is a solution to eqn. \ref{eqn:wk15-pce}. We can then use reduction of order (see D'Alembert's reduction) to determine the other solution. The general solution is then
+\begin{gather*}
+	Y(X) = c_1 X - c_2 \me^{-X^2/2} - c_2 X \sqrt{\frac{\pi}{2}} \erf \left(\frac{X}{\sqrt{2}}\right)
+\end{gather*}
+In the original unscaled variables, the derivative $\md y/\md x$ tends to $-1$ on the left and $+2$ on the right. So in terms of the inner variable, the gradients $\md Y/\md X$ tend to $-\sqrt{\epsilon}$ and $+2 \sqrt{\epsilon}$ (rather than impose the exact BCs $y(-1)=1$ etc.). In other words, we are performing a lowest order match and applying it to the derivative of $y$ rather than $y$ itself. This yields
+\begin{gather*}
+	c_1 - \sqrt{\frac{\pi}{2}} c_2 = 2 \sqrt{\epsilon} \\
+	c_1 + \sqrt{\frac{\pi}{2}} c_2 = -\sqrt{\epsilon}
+\end{gather*}
+These yield
+\begin{gather*}
+	c_1 = \frac{\sqrt{\epsilon}}{2} \qquad c_2 = - \frac{3\sqrt{\epsilon}}{\sqrt{2 \pi}}
+\end{gather*}

@@ -1,0 +1,100 @@
+\chapter[Aging Spring]{Aging Spring and Adiabatic Invariants}
+
+We will spend this lecture revisiting the aging spring problem, first introduced in lecture 18 (eqn. \ref{eqn:wk18-spring-eqn}) and solved with the help of WKB. The two-timing method brings out new ideas such as ``adiabatic invariance''. 
+\begin{gather*}
+\ddot{y} + \me^{-\epsilon t} y = 0, \qquad 0 < \epsilon \ll 1 \\
+y(0) = 1 \qquad \dot y(0) = 0
+\end{gather*}
+The stiffness $\me^{\epsilon t}$ is slowly decaying to zero on a very long time-scale. The instantaneous frequency $\omega$ satisfies
+\begin{gather*}
+	\omega^2 = \me^{-\epsilon t}
+\end{gather*}
+The slow scale is $\tau = \epsilon t$. But what is the correct fast time-scale? Should it be $t$? $\omega t$? Since $\omega$ itself is changing. Something else?\\
+\ \newline
+Let the fast time $s$ itself vary on the long time scale, i.e.
+\begin{gather}
+	\frac{\md s}{\md t} = g(\tau, \epsilon)
+\end{gather}
+where the function $g$ is to be determined (it plays the role of instantaneous $\omega$). Let
+\begin{align*}
+	y(t,\epsilon) = Y(s,\tau)
+\end{align*} 
+and calculate the first and second derivatives. 
+\begin{align*}
+	\dot y &= Y_s \frac{\md s}{\md t} + Y_\tau \frac{\md \tau}{\md t} \\
+	&= gY_s + \epsilon Y_\tau \\
+	\ddot{y} &=  Y_s \frac{\md g}{\md t} + g \frac{\md Y_s}{\md t} + \epsilon \frac{\md Y_\tau}{\md t} \\
+	&= Y_s \epsilon g_\tau + g(gY_{ss} + \epsilon Y_{s\tau}) + \epsilon(gY_{\tau s} + \epsilon Y_{\tau \tau}) \\
+	&= g^2 Y_{ss} + \epsilon [2g Y_{s\tau } + Y_s g_\tau ] + \epsilon^2 Y_{\tau \tau }
+\end{align*}
+We further want to expand everything as a regular perturbative series
+\begin{gather*}
+	Y = Y_0 + \epsilon Y_1 + \dots \\
+	g = g_0 + \epsilon g_1 + \dots 
+\end{gather*}
+With this, our ODE without $O(\epsilon^2)$ terms, becomes
+\begin{align*}
+	(g_0 + \epsilon g_1 )^2 (Y_0 + \epsilon Y_1)_{ss} + \epsilon [2g_0 (Y_0)_{s\tau } + (Y_0)_s (g_0)_\tau ] + \me^{-\tau }(Y_0 + \epsilon Y_1) = 0
+\end{align*}
+The hierarchy becomes
+\begin{align*}
+	O(\epsilon^0): \qquad & g_0^2 (Y_0)_{ss} + \me^{-\tau} Y_0 = 0 \\
+	O(\epsilon^1): \qquad & g_0^2 (Y_1)_{ss} + \me^{-\tau} Y_1 = -[2g_0 (Y_0)_{s\tau } + (Y_0)_s (g_0)_\tau + 2 g_0g_1 (Y_0)_{ss}]
+\end{align*}
+The $O(1)$ equation suggests that it would help to choose
+\begin{gather*}
+	g_0^2 = \me^{-\tau} \qquad \implies g_0(\tau) = \me^{-\tau/2}
+\end{gather*}
+This was what we called $\omega$ from ``common-sense'' thinking. Integrating the $O(1)$ equation with the ICs {\color{red}[check] }
+\begin{align*}
+Y_0(0,0) = 1 \qquad (Y_0)_s(0,0) = 0 
+\end{align*}
+we arrive at
+\begin{align*}
+	Y_0(s,\tau) = A(\tau) \cos (s) \qquad A(0) = 1
+\end{align*}
+The next order equation is
+\begin{align*}
+	\me^{-\tau} [(Y_1)_{ss} + Y_1] = 2g_0 A_\tau \sin (s) + (g_0)_\tau A \sin (s)  + 2 \me^{-\tau/2} g_1  A \cos (s)
+\end{align*}
+To avoid the secularity that would otherwise occur, the coefficients of both $\sin(s)$ and $\cos (s)$ resonant terms need to be forced to zero, i.e.
+\begin{align*}
+	g_1 = 0, \qquad 2g_0 A_\tau + A (g_0)_\tau = 0
+\end{align*}
+Observe that upon multiplication of the ``amplitude'' equation with $A$, the equation becomes a perfect partial derivative with respect to $\tau$
+\begin{gather*}
+	\frac{\pd}{\pd \tau} (g_0 A^2) = 0 \qquad
+	\implies g_0 A^2 = \text{const. in } \tau 
+\end{gather*}
+This invariance is on time-scales up to and including $O(1/\epsilon)$ and accurate to within $O(\epsilon)$ and is often referred to as the ``action''. The \emph{adiabatic invariance} means that we are adjusting some parameter so slowly that it gives the system sufficient time to equilibriate. To understand what this invariant term means, recall
+\begin{align*}
+	\dot y &= g Y_s + O(\epsilon) \\
+	&= - g_0 A \sin (s) + O(\epsilon) \\
+	y &= A \cos (s) + O(\epsilon)
+\end{align*}
+Now note that the energy of the spring
+\begin{align*}
+	E &\propto \dot{y}^2 + k y^2 \\
+	  &\propto g_0^2 A^2 \sin^2 s + g_0^2A^2 \cos^2 s \\
+	  & \propto g_0^2 A^2
+\end{align*}
+which is \underline{not} constant\footnote{Note that in qunatum mechanics $E = \hbar \omega$, and the ratio $E/\omega$ is conserved. This can be seen to correspond to $E/g_0$ ($g_0 = \omega$).}. Now at $\tau = 0$, 
+\begin{gather*}
+	g_0 = \me^{-\tau/2} = 1 \qquad A(0) = 1
+\end{gather*}
+Therefore $A(\tau)^2 = 1/g_0$ and
+\begin{gather*}
+	Y_0(s,\tau) = \me^{\tau/4} \cos (s) + O(\epsilon)
+\end{gather*}
+where
+\begin{gather*}
+	\frac{\md s}{\md t} = g_0 + \epsilon \cancel{g_1} + O(\epsilon^2) = \me^{-\epsilon t/2} \\
+	\implies s = -\frac{2}{\epsilon}\me^{-\epsilon t/2} + c
+\end{gather*}
+Putting it together
+\begin{align*}
+	Y_0 = \me^{\epsilon t/4}\left[A \cos \left( \frac{2}{\epsilon} \me^{-\epsilon t/2} \right) + B\sin \left( \frac{2}{\epsilon} \me^{-\epsilon t/2} \right)\right]
+\end{align*}
+which is what the WKB method had recovered (eqn. \ref{eqn:wk18-spring-wkb}).
+
+

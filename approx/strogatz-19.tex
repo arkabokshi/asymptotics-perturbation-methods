@@ -1,0 +1,117 @@
+\chapter[Turning points]{Turning Points and Airy Function}\label{sec:turning-points}
+Consider
+\begin{gather*}
+	\epsilon^2 y'' = Q(x) y
+\end{gather*}
+There are two distinct behaviors:
+\begin{itemize}
+	\item $Q(x)<0$ gives oscillatory solutions
+	\item $Q(x)>0$ gives exponential growth/decay
+\end{itemize}
+The \underline{turning point} is a point $x_0$ that separates the two types of behaviors, i.e.
+\begin{gather*}
+	Q(x_0)=0
+\end{gather*} 
+{\bf NB.} The simple WKB formalism breaks down near such an $x_0$: we remedy this by performing a match near the ``inner'' layer using the Airy function. 
+
+\paragraph{Example:} 
+\begin{gather*}
+	\epsilon^2 y'' = (\sinh x \cosh^2 x) y \\
+	y(0) = 1 \qquad y(x \rightarrow +\infty) \rightarrow 0
+\end{gather*}
+In quantum theory we assume 
+\begin{gather*}
+	\int_{-\infty}^{\infty} y^2 \md x 
+\end{gather*}
+is finite, which provides a global (boundary) condition on $y$. Recall from eqn. \ref{eqn:wk18-wkb} that in regions where $Q(x) \neq 0$
+\begin{align*}
+	y(x,\epsilon) \sim \frac{1}{Q(x)^{1/4}} \left\{ c_1 \exp \left[\frac{1}{\epsilon} \int_{a}^{x} \sqrt{Q(t)}\md t \right]+ c_2 \exp \left[-\frac{1}{\epsilon} \int_{a}^{x} \sqrt{Q(t)}\md t \right] \right\}
+\end{align*}\\
+Now consider the two regions: \\
+\ \newline $\underline{x>0}$
+\begin{align*}
+	\int_{a}^{x} \sqrt{Q(t)} \md t &= \int_{0}^{x} \sinh^{1/2} t \cosh t \md t \\
+	& =\frac{2}{3} (\sinh x)^{3/2}
+\end{align*}
+Therefore
+\begin{align*}
+	y(x) &\sim \frac{1}{(\sinh x \cosh^2 x)^{1/4}} \left\{ c_1 \exp\left[\frac{2}{3\epsilon}(\sinh x)^{3/2}\right] + c_2 \exp\left[-\frac{2}{3\epsilon}(\sinh x)^{3/2}\right]\right\} \\
+	&\sim \frac{1}{(\sinh x \cosh^2 x)^{1/4}} \left\{ c_2 \exp\left[-\frac{2}{3\epsilon}(\sinh x)^{3/2}\right] \right\} 
+\end{align*}
+Note that the BC $y \rightarrow 0$ as $x \rightarrow + \infty$ requires that $c_1=0$. Next consider its behavior as $x\rightarrow 0^+$ (noting $\sinh x \rightarrow x$ and $\cosh x \rightarrow 1$):
+\begin{align*}
+	y(x)_R \sim \frac{A}{x^{1/4}} \exp\left[-\frac{2}{3 \epsilon} x^{3/2}\right]
+\end{align*}
+$\underline{x<0}$
+\begin{align*}
+	\int_{0}^{x} \sqrt{Q(t)} \md t &= \int_{0}^{x<0} \pm \mi \sqrt{\sinh|t|} \cosh t \md t \\
+	&= \pm \frac{2\mi }{3} [\sinh (-x)]^{3/2}
+\end{align*}
+Note that this is purely imaginary. 
+\begin{align*}
+	y(x)_L &\sim \frac{1}{(\sinh |x| \cosh^2 x)^{1/4}} \left\{ B \cos\left[\frac{2}{3\epsilon}\sinh^{3/2} |x|\right] +  C \sin\left[\frac{2}{3\epsilon}\sinh^{3/2} |x|\right]\right\}
+\end{align*}
+As $x \rightarrow 0^-$
+\begin{align*}
+	y(x)_L \sim \frac{1}{|x|^{1/4}} \left\{ B \cos \left[\frac{2}{3 \epsilon}|x|^{3/2}\right]  + C \sin \left[\frac{2}{3 \epsilon}|x|^{3/2}\right] \right\}
+\end{align*} \\
+\underline{Inner region} \\
+\ \newline Perform the usual change of variable $X = x/\delta$, where $\delta = \delta(\epsilon)$ is determined by dominant balance. Our ODE in the layer reads
+\begin{align*}
+	\epsilon^2 \frac{1}{\delta^2} Y'' &= [\sinh (\delta X) \cosh^2(\delta X)] Y \\
+	&= [(\delta X + O(\delta^3))(1 + O(\delta^2))] Y \\
+	&=[\delta X + O(\delta^3)] Y
+\end{align*}
+The only possible balance is
+\begin{align*}
+	\frac{\epsilon^2}{\delta^2} \approx \delta \qquad
+	\implies \delta \approx  \epsilon^{2/3}
+\end{align*}
+and
+\begin{gather*}
+	X = \frac{x}{\epsilon^{2/3}} = \left[\frac{x^{3/2}}{\epsilon}\right]^{2/3}
+\end{gather*}
+where the term inside $[.]$ has shown up in the calculation of $y_L$ and $y_R$. With this choice of $\delta$, $Y$ satisfies
+\begin{gather*}
+	Y'' = XY
+\end{gather*}
+This is the famous Airy's equation and is typical in turning point problems. Its general solution is
+\begin{gather*}
+	Y(X) = \alpha \mathrm{Ai}(X) + \beta \mathrm{Bi}(X)
+\end{gather*} 
+For matching, we need their behavior as $X \rightarrow \pm \infty$. This is discussed in B\&O. As $X \rightarrow \infty$
+\begin{align*}
+	\mathrm{Ai}(X) &\sim \frac{1}{2 \sqrt{\pi}} \frac{1}{X^{1/4}} \exp \left[-\frac{2}{3}X^{3/2} \right] \\
+	\mathrm{Bi}(X) &\sim \frac{1}{\sqrt{\pi}} \frac{1}{X^{1/4}} \exp \left[+\frac{2}{3}X^{3/2} \right]
+\end{align*}
+As $X \rightarrow -\infty$
+\begin{align*}
+	\mathrm{Ai}(X) &\sim \frac{1}{\sqrt{\pi}} \frac{1}{(-X)^{1/4}} \sin \left[\frac{2}{3}(-X)^{3/2} + \frac{\pi}{4}\right] \\
+	\mathrm{Bi}(X) &\sim \frac{1}{\sqrt{\pi}} \frac{1}{(-X)^{1/4}} \cos \left[\frac{2}{3}(-X)^{3/2} + \frac{\pi}{4}\right]	
+\end{align*}
+Match $y_R(x \rightarrow 0^+)$ and $Y(X \rightarrow \infty)$. Clearly there cannot be a growing $\mathrm{Bi}$ term and hence $\beta=0$.
+\begin{gather*}
+	 \frac{\alpha}{2 \sqrt{\pi}} \frac{1}{X^{1/4}} \exp \left[-\frac{2}{3\epsilon}x^{3/2} \right]\sim \frac{A}{x^{1/4}} \exp\left[-\frac{2}{3 \epsilon} x^{3/2}\right] \\
+	 \implies \alpha = \frac{2 \sqrt{\pi}}{\epsilon^{1/6}} A 
+\end{gather*}
+Match $y_L(x \rightarrow 0^-)$ and $Y(X \rightarrow -\infty)$
+\begin{align*}
+	\frac{1}{(-x)^{1/4}} \left\{ B \cos \left[\frac{2}{3 \epsilon}(-x)^{3/2}\right]  + C \sin \left[.\right] \right\} &\sim \frac{\alpha}{\sqrt{\pi}} \left(-\frac{\epsilon^{2/3}}{x}\right)^{1/4}\sin \left[\frac{2}{3 \epsilon}\left(-x\right)^{3/2} + \frac{\pi}{4}\right] \\
+	& \sim \frac{\alpha \epsilon^{1/6}}{\sqrt{\pi}}\frac{1}{(-x)^{1/4}} \left\{ \sin [.] \frac{1}{\sqrt{2}} + \cos [.] \frac{1}{\sqrt{2}} \right\}
+\end{align*} 
+Clearly
+\begin{gather*}
+	B = C = \frac{\alpha \epsilon^{1/6}}{\sqrt{2\pi}} = \sqrt{2} A
+\end{gather*}
+Altogether
+\begin{align*}
+	y(x)_R &\sim \frac{A}{(\sinh x \cosh^2 x)^{1/4}} \exp\left[-\frac{2}{3\epsilon}(\sinh x)^{3/2}\right]  \\
+	y(x)_L & \sim \frac{2A}{(\sinh |x| \cosh^2 x)^{1/4}} \sin\left[\frac{2}{3\epsilon}\sinh^{3/2} |x| + \frac{\pi}{4}\right] \\
+	y(x)_\text{layer} & \sim \frac{2 \sqrt{\pi}A}{\epsilon^{1/6}} \mathrm{Ai} \left[\frac{x}{\epsilon^{2/3}}\right]
+\end{align*}
+
+
+
+
+
+

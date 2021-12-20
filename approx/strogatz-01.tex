@@ -1,0 +1,133 @@
+\chapter{Asymptotic Expansions}
+Consider an integral that depends on a large parameter $x$
+\begin{gather}
+	F(x) = \int_{0}^{\infty} \frac{\me^{-xt}}{1+t} \md t \qquad (x>0)
+\end{gather}
+This integral -- Laplace transform of $1/(1+t)$ -- cannot be evaluated in closed form in terms of elementary functions. To make progress, try writing
+\begin{gather*}
+	\frac{1}{1+t} = 1-t + t^2 - t^3 + \dots
+\end{gather*}
+This series converges for $|t|<1$. In the integral this series is being used outside its region of convergence and we are therefore likely to run into trouble. Ignoring that nonetheless, the integral yields\footnote{No rigorous justification for interchanging the integral and summation; we are not `formal'.}
+\begin{align}
+	F(x) &= \int_{0}^{\infty} \me^{-xt} \left[1-t + t^2 - t^3 + \dots\right] \md t \nonumber \\
+	&= \frac{1}{x} - \frac{1!}{x^2} + \frac{2!}{x^3} - \dots + \frac{(n-1)!}{x^n}\dots \label{eqn:F_series}
+\end{align}
+Using the definition of the Gamma function 
+\begin{gather*}
+	\int_{0}^{\infty} t^n \me^{-xt} \md t = \frac{n!}{x^{n+1}}
+\end{gather*}
+Does the series $F(x)$ given by eqn. \ref{eqn:F_series} converge? We perform the ratio test to ascertain if $\left|a_{n+1}/a_n\right| < 1$ as $n\rightarrow \infty$.
+\begin{gather}\label{eqn:gammafunc-ratio}
+	\left|\frac{a_{n+1}}{a_n}\right| = \frac{n!}{x^{n+1}} \frac{x^n}{(n-1)!} = \frac{n}{x} \rightarrow \infty 
+\end{gather}
+as $n\rightarrow \infty$ for all $x > 0$. The series clearly diverges. This is down to using the expansion for $1/(1+t)$ in a region it is not valid. But divergent series are rather useful as we shall see (even more so than convergent series)! This is because we would not take infinitely many terms and only use the first few leading order terms. Let us take some moderately large value of $x$ and see what the series predicts. Take $x=10$ (as powers of 10 recognizable in decimals) and keep the first 5 terms of the series.
+\begin{align*}
+	F(10) &= 0.1000 - 0.0100 + 0.0020 - 0.0006 \\
+	&= 0.0914 
+\end{align*}
+A simple numerical quadrature integration of the function\footnote{Code available through repo.} yields
+\begin{gather*}
+	F(10) = 0.09156
+\end{gather*}
+So why did this work so well, especially considering this was a divergent series? Consider the partial sum
+\begin{align*}
+	S_n(x) &= \sum_{k=0}^{n-1} (-1)^k \frac{k!}{x^{k+1}} \\
+	&= \frac{1}{x} - \frac{1!}{x^2} + \frac{2!}{x^2} + \dots + (-1)^{n-1}\frac{(n-1)!}{x^n} \\
+	R_n(x) &= F(x) - S_n(x)
+\end{align*}
+where $R_n(x)$ is the remainder/error we make by stopping at the $n^{th}$ term. In order to do this, we deal with $F(x)$ more carefully now. Now
+\begin{gather*}
+	\left[1 - t + t^2 - t^3 + \dots + (-1)^{n-1}t^{n-1}\right] + \frac{(-1)^n t^n}{1+t} = \frac{1}{1+t}
+\end{gather*}
+and therefore
+\begin{align*}
+	F(x) &= \int_{0}^{\infty} \me^{-xt} [\dots] \md t + \underbrace{\int_{0}^{\infty} (-1)^n \me^{-xt} \frac{ t^n}{1+t} \md t }_{R_n}
+\end{align*}
+We are interested in evaluating
+\begin{align*}
+	|R_n(x)| &= \int_{0}^{\infty} \frac{t^n \me^{-xt}}{1+t} \md t \\
+	& \leq  \int_{0}^{\infty} {t^n \me^{-xt}} \md t = \frac{n!}{x^{n+1}}
+\end{align*}
+since for $t>0$ we have $1> 1/(1+t)$. It is interesting to note from eqn. \ref{eqn:F_series} that the remainder term $R_n$ is less than the first neglected term in the infinite series!
+\begin{gather*}
+	|R_n| \leq |a_{n+1}|
+\end{gather*}
+In other words, $S_4(10) = 0.0914$ must lie within $a_5 = 4!/10^5$ of the true answer. So how many terms should we take for optimal accuracy (i.e. as close to the answer as possible)? Since $R_n(x)$ alters with $n$, exact value of $F(x)$ must lie between any two consecutive $S_n$ even though the series diverges! To see this note
+\begin{align*}
+	F(x) &= S_n + R_n \\
+		&= S_{n+1} + R_{n+1}  
+\end{align*}
+If, say, $R_n > 0$ and $R_{n+1} < 0$, then 
+\begin{gather*}
+	S_{n+1}>F(x) > S_n
+\end{gather*}
+Therefore, any two partial sums bound the answer. And we should stop where the partial sums are the tightest (roughly around $n \sim x$ as suggested by eqn. \ref{eqn:gammafunc-ratio}). From the numerically calculated partial sums we find (see code)
+\begin{gather*}
+0.09158 > F(10) > 0.09154
+\end{gather*}
+\paragraph{Comments}
+
+\begin{enumerate}
+	\item $f(x) \sim g(x)$ or $f$ is asymptotic to $g$ as $x \rightarrow x_0$ means
+	\begin{gather*}
+		\lim\limits_{x \rightarrow x_0} \frac{f(x)}{g(x)} = 1
+	\end{gather*}
+	Here $f$ is usually complicated and $g$ is relatively simple. Example $\sin x \sim x$ as $x \rightarrow 0$. Equivalently
+	\begin{gather*}
+		\sin x \sim x - \frac{x^3}{3!} \quad \text{as} \quad x \rightarrow 0
+	\end{gather*}
+	\item $f(x) = {O}(g(x))$ (``big oh'') means $f(x)/g(x)$	is bounded as $x \rightarrow x_0$. Useful for orders of magnitude when we are not interested in the prefactor. Example
+	\begin{gather*}
+		\sin x = x + {O}(x^3)
+	\end{gather*}
+	since $(\sin x - x)/x^3$ is bounded as $x \rightarrow 0$.
+	\item $f(x) = o(g(x))$ ``little oh" means
+	$f(x) \ll g(x)$	as $x \rightarrow x_0$. This implies $f$ tends to 0 faster than $g$ does. Equivalently
+	\begin{gather*}
+		\lim\limits_{x\rightarrow x_0} \frac{f(x)}{g(x)} = 0
+	\end{gather*}
+	Example $\sin x = o(1)$ as $x \rightarrow 0$. 
+	\item $\{\phi_j(x)\}$ is called an ``asymptoic sequence" as $x \rightarrow x_0$ if 
+	\begin{gather*}
+		\phi_{j+1}(x) \ll \phi_j(x)
+	\end{gather*}
+	as $x \rightarrow x_0$. Example
+	\begin{align*}
+		\frac{1}{x} \gg \frac{1}{x^2} \gg \frac{1}{x^3} \dots \qquad \text{as} \quad x \rightarrow \infty
+	\end{align*}
+	\item We finally define an ``asymptotic expansion'' (Poincar\'e 1886)
+	\begin{gather*}
+		f(x) \sim a_1 \phi_1(x) + a_2 \phi_2(x) + \dots \qquad \text{as} \quad x \rightarrow x_0
+	\end{gather*}
+	if $\{\phi_j(x)\}$ is an asymptotic sequence and
+	\begin{gather*}
+		f(x) - \underbrace{\sum_{j=1}^{n} a_j \phi_j(x)}_{S_n(x)} \ll \phi_n(x)
+	\end{gather*}
+	for each $n=1,2,\dots$ i.e. the remainder sum/error is much less than the last term in the sum. Equivalently
+	\begin{align*}
+		R_n(x) &= f(x) - S_n(x) \\
+		& \ll \phi_n(x)
+	\end{align*}
+	This also implies that
+	\begin{gather*}
+		R_n(x) = O(\phi_{n+1}(x))
+	\end{gather*}
+	i.e. the error is of the order of the first neglected term.
+\end{enumerate}
+In fact, we have shown already that
+\begin{gather*}
+	F(x) = \int_{0}^{\infty} \frac{\me^{-xt}}{1+t} \md t \sim \frac{1}{x} - \frac{1!}{x^2} + \frac{2!}{x^3} - \dots
+\end{gather*}
+as $x \rightarrow \infty$. Two things to check:
+\begin{enumerate}
+	\item Here, ignoring the prefactors $a_j$
+	\begin{gather*}
+		\frac{1}{x} \gg \frac{1}{x^2} \gg \frac{1}{x^3} \dots
+	\end{gather*}
+	is the asymptotic sequence $\{\phi_j(x)\}$.
+	\item Also
+	\begin{gather*}
+		|R_n(x)| \leq \frac{n!}{x^{n+1}} \ll \frac{1}{x^n} = \phi_n(x)
+	\end{gather*}
+	as $x \rightarrow \infty$ for any fixed $n$.
+\end{enumerate}

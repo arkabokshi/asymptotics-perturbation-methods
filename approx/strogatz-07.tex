@@ -1,0 +1,111 @@
+\chapter{Saddle Points}
+{\bf NB} Notes are incomplete and need both checking and expansion. Several steps missed and some (small) sections in lecture not yet included. \\  
+\ \newline
+Extension of the method of steepest descent. As in the previous lecture, consider integrals of the form
+\begin{gather*}
+	I(x) = \int_{a}^{b} h(t) \me^{x \rho(t)} \md t \qquad x \rightarrow \infty
+\end{gather*}
+where $\rho(t) = \phi(t)+ \mi \psi(t)$ is an analytic function of a complex variable $t = u + \mi v$. \\
+\ \newline
+Along contours of constant $\psi$, points of maximum $\phi$ make dominant contributions to $I(x)$. This was discussed in the previous lecture with end point maximas. Here we ask the question what happens if the maximum lies in the interior of the domain. \\
+\ \newline
+A point $t_0$ where $\rho'(t_0)=0$ is a ``saddle point''. Recall from complex analysis that if the function $\rho(t) = \phi(t) + \mi \psi (t)$ is analytic, and $t = u + \mi v$, then from Cauchy-Riemann equations
+\begin{align*}
+	\frac{\pd \phi}{\pd u}  = \frac{\pd \psi}{\pd v} \qquad \frac{\pd \phi}{\pd v} = - \frac{\pd \psi}{\pd u}
+\end{align*}
+This provides two key conclusions:
+\begin{enumerate}
+	\item The Laplacian $\nabla^2 \psi = \nabla^2 \phi = 0$. Therefore
+	\begin{gather*}
+		\underbrace{\frac{\pd^2 \phi}{\pd u^2}}_{>0} + \underbrace{\frac{\pd^2 \phi}{\pd v^2}}_{<0} = 0
+	\end{gather*}
+	i.e. a maxima along one axis implies a minima along the other.
+	\item Further
+	\begin{align*}
+		\frac{\pd \phi}{\pd u}\frac{\pd \psi}{\pd u} + \frac{\pd \phi}{\pd v}\frac{\pd \psi}{\pd v} = \nabla \phi . \nabla \psi = 0
+	\end{align*}
+	Therefore $\nabla \phi$ points in the direction of $\psi=$const. This means that the contours of constant $\psi$ pass through the saddle in $\phi$.
+\end{enumerate}
+
+
+\paragraph{Example:} Consider the Bessel function with this new method. 
+\begin{align*}
+	J_0(x) = \frac{1}{\pi} \Re \int_{0}^{\pi} \me^{\mi x \sin t} \md t
+\end{align*}
+With the stationary phase method we got the result (eqn. \ref{eqn:bessel-approx})
+\begin{gather*}
+	J_0(x) \sim \sqrt{\frac{2}{\pi x}} \cos \left(x - \pi/4\right) \qquad x \rightarrow \infty
+\end{gather*}
+We can obtain higher order terms using the saddle point method. Here
+\begin{gather*}
+	\rho(t) = \mi \sin t 
+\end{gather*}
+We want to deform the contour such that $\Im [\rho] = \Im [\mi \sin t]$ is constant on each piece of countour.
+\begin{align*}
+	\sin t &= \sin (u + \mi v) \\
+			& = \sin u \cos (\mi v) + \cos u \sin (\mi v) \\
+			&= \sin u \cosh v + \mi \cos u \sinh v
+\end{align*}
+Therefore
+\begin{align*}
+	\Im[\rho] &= \psi = + \sin u \cosh v \\
+	\Re[\rho] &= \phi = - \cos u \sinh v
+\end{align*}
+and we want to move along a new contour such that $\psi =$ const. Begin by calculating $\psi$ at the end points:
+\begin{align*}
+	\psi (0,0) &= 0 \\
+	\psi (\pi,0) &= 0 
+\end{align*}
+Note that $\cosh v \neq 0$. Therefore we must require that $u =0$ or $u = \pi$, i.e. the constant phase lines are \emph{vertical lines}. So starting at $t=0$, which way is descending in $\phi$? Recall 
+\begin{gather*}
+	\phi = -\cos 0 \sinh v = -\sinh v
+\end{gather*}
+Therefore if we move towards positive $v$, we would move downhill. Likewise at the other end point $(\pi,0)$
+\begin{gather*}
+	\phi = -\cos \pi \sinh v = +\sinh v
+\end{gather*}
+and we needs to move towards negative $v$. We need a bridge that connects the two pieces. And ideally, the bridge should be a curve of constant $\psi$. 
+\begin{gather*}
+	\nabla \psi = \left\langle \frac{\pd}{\pd u}(\sin u \cosh v), \frac{\pd}{\pd v} \dots  \right\rangle = 0 \\
+	\cos u \cosh v = 0 \qquad \& \qquad  \sin u \sinh v = 0 \\
+	\boxed{u = \frac{\pi}{2}, \, v = 0}
+ \quad 
+\end{gather*}
+At this point, $\psi = 1$ and this is the contour level we are interested in. We can expand about this saddle point using Taylor series:
+\begin{align*}
+	u - \frac{\pi}{2} = s \ll 1 \qquad v \ll 1
+\end{align*}
+and therefore
+\begin{align*}
+	\psi &= \sin\left(\frac{\pi}{2}+s\right) \cosh v = \cos s \cosh v \\
+	&= \left(1- \frac{s^2}{2} \dots\right) \left(1+ \frac{v^2}{2}\right) \\
+	& = \cancel{1} + \frac{v^2}{2} - \frac{s^2}{2} \dots = \cancel{1}
+\end{align*}
+Therefore $s = \pm v$. Refer (figure?) where we will allow $V \rightarrow \infty$. We will find that $C_2$ and $C_4$ are zero. $I_1$ and $I_5$ are pure imaginary and do not affect $J_0(x)$ whose real part is what interests us.
+\begin{align*}
+	\text{e.g.} \quad I_1 &= \frac{1}{\pi} \int_{0}^{\infty} \me^{\mi x \sin (\mi v)} \mi \md v \\
+	&= \underbrace{\frac{\mi}{\pi} \int_{0}^{\infty} \me^{-x \sinh v }\md v}_\text{purely imaginary}
+\end{align*}
+On the final curve of interest, which is $C_3$, the integral is dominated by contribution from the saddle point. As before in Lecture 6, we replace $C_3$ by its tangent at the saddle point. 
+\begin{gather*}
+	t = \frac{\pi}{2} + (1-\mi )r \qquad r \in [-\epsilon,\epsilon]
+\end{gather*}
+Using the above parameterization
+\begin{align*}
+	I_3 = \int_{-\epsilon}^{\epsilon} \me^{\mi x \sin \left[{\pi}/{2} + (1-\mi )r\right]} (1-\mi) \md r
+\end{align*}
+The power is expanded as
+\begin{align*}
+	\sin \left[\frac{\pi}{2} + (1-\mi)r\right] &= \cos \left[(1-\mi)r\right] \\
+	&= 1 - \frac{(1-\mi)^2 r^2}{2} + \frac{(1-\mi)^4 r^4}{4!} \dots \\
+	& = 1 + \mi r^2 - \frac{1}{6} r^4 \dots 
+\end{align*}
+And finally
+\begin{align*}
+	I_3 & \sim 2(1-\mi )\me^{\mi x}\int_{0}^{\epsilon} \me^{-xr^2} \me^{-\mi x r^4/6} \md r \\
+	& \sim 2(1-\mi )\me^{\mi x}\int_{0}^{\infty} \me^{-xr^2} \left[1 - \frac{\mi x r^4}{6} \dots \right] \md r \\
+\end{align*}
+yielding
+\begin{align*}
+	J_0(x) \sim  \sqrt{\frac{2}{\pi x}} \left[\cos\left(x-\frac{\pi}{4}\right) + \frac{1}{8x} \sin\left(x-\frac{\pi}{4}\right) + ...\right]
+\end{align*}

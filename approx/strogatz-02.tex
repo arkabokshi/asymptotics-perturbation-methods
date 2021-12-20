@@ -1,0 +1,152 @@
+\chapter{Properties of Asymptotic Series}
+
+This lecture is about things that can go bad when working with asymptotics.
+
+\paragraph{Comment 1}
+Important to appreciate the distinction between \emph{convergent} and \emph{asymptotic} series. Suppose
+\begin{gather*}
+	S_n(x) = \sum_{j=1}^{n} a_j \phi_j(x)
+\end{gather*}
+is an $n$-term approximation to a given $f(x)$. A series is convergent if 
+\begin{align*}
+	S_n(x) \rightarrow f(x) \qquad \text{as} \quad n \rightarrow \infty
+\end{align*}
+for \underline{each fixed $x$}. However, asymptotic behaviour implies
+\begin{gather*}
+	S_n(x) \sim f(x) \qquad \text{as} \quad x \rightarrow x_0
+\end{gather*}
+for \underline{each fixed $n$}. The base-point is $x_0$ about which the expansion is taking place. 
+
+\paragraph{Comment 2}
+If $\{\phi_j(x)\}$ is an asymptotic sequence such that
+\begin{gather*}
+	\phi_1(x) \gg \phi_2(x) \gg \dots \qquad \text{as} \quad x \rightarrow x_0
+\end{gather*}
+then if 
+\begin{gather*}
+	f(x) \sim a_1 \phi_1(x) + a_2 \phi_2(x) + \dots
+\end{gather*}
+then the coefficients $\{a_j\}$ are uniquely determined as follows:
+\begin{gather*}
+	f(x) \sim a_1 \phi_1(x)\qquad \text{as} \quad x \rightarrow x_0 \\
+	\implies a_1 = \lim\limits_{x \rightarrow x_0} \frac{f(x)}{\phi_1(x)}
+\end{gather*}
+Likewise
+\begin{gather*}
+	f(x) \sim a_1 \phi_1(x) + a_2 \phi_2(x)\qquad \text{as} \quad x \rightarrow x_0 \\
+	\implies a_2 = \lim\limits_{x \rightarrow x_0} \frac{f(x) - a_1 \phi_1(x)}{\phi_2(x)}
+\end{gather*}
+\underline{Example:} Consider the basis/Gauge functions
+\begin{gather*}
+	\cos \epsilon \gg \sin \epsilon \gg \sin^2 \epsilon \qquad \text{as} \quad \epsilon \rightarrow 0
+\end{gather*}
+and suppose we want to represent $\sqrt{9+\epsilon}$ using these basis functions. Then
+\begin{gather*}
+	\sqrt{9+\epsilon} = a_1 \cos \epsilon + a_2 \sin \epsilon + a_3 \sin^2 \epsilon + o(\sin^2 \epsilon)
+\end{gather*}
+and
+\begin{gather*}
+	a_1 = \lim\limits_{\epsilon \rightarrow 0} \frac{\sqrt{9+\epsilon}}{\cos \epsilon} = 3 \\
+	a_2 = \lim\limits_{\epsilon \rightarrow 0} \frac{\sqrt{9+\epsilon} - 3 \cos \epsilon}{\sin \epsilon} = \frac{1}{6} \\
+	a_3 = \lim\limits_{\epsilon \rightarrow 0} \frac{\sqrt{9+\epsilon} - 3 \cos \epsilon - 1/6 \sin \epsilon}{\sin^2 \epsilon} = \frac{323}{216}
+\end{gather*}
+where we have used the L'H\^opital rule once in calculating $a_2$ and twice in determining $a_3$.  
+
+\paragraph{Comment 3} If we use a different asymptotic sequence $\{\psi_j(x)\}$ then we get different coefficients. So now if we consider
+\begin{gather*}
+	\sqrt{9+\epsilon} = a_1 + a_2 \epsilon + a_3 \epsilon^2 + O(\epsilon^3)
+\end{gather*}
+then
+\begin{gather*}
+a_1 = \lim\limits_{\epsilon \rightarrow 0} \frac{\sqrt{9+\epsilon}}{\epsilon^0} = 3 \\
+a_2 = \lim\limits_{\epsilon \rightarrow 0} \frac{\sqrt{9+\epsilon} - 3}{\epsilon} = \frac{1}{6} \\
+a_3 = \lim\limits_{\epsilon \rightarrow 0} \frac{\sqrt{9+\epsilon} - 3 - 1/6 \epsilon}{\epsilon^2} = -\frac{1}{216}
+\end{gather*}
+\paragraph{Comment 4} Note that every convergent Taylor series 
+\begin{gather*}
+	\sum_{n=0}^{\infty} \frac{f^{(n)}(x_0)}{n!} (x-x_0)^n = f(x)
+\end{gather*}
+is asymptotic to $f(x)$ as $x \rightarrow x_0$ with basis
+\begin{gather*}
+	1 \gg (x-x_0) \gg (x-x_0)^2 \gg (x-x_0)^3 \dots \qquad \text{as} \quad x \rightarrow x_0
+\end{gather*}
+Asymptoticity is a local property (in the neighbourhood of $x_0$).
+
+\paragraph{Comment 5} Transcedentally small terms (TST) are terms which are much smaller than any non-negative power of $\epsilon$ as $\epsilon \rightarrow 0$, or of $1/x$ as $x\rightarrow \infty$. More precisely, $f(x)$ is a TST if 
+\begin{gather*}
+	f(x) \ll \frac{1}{x^n} \qquad \text{as} \quad x \rightarrow 0
+\end{gather*}
+for any $n \geq 0$. We may also say that $f(x)$ is \underline{subdominant} to $1/x^n$. TST are important to understand as they cause a very serious kind of ``non-uniqueness'' and other kinds of trouble. Many different functions can have the same asymptotic expansion! \\
+\ \newline
+\underline{Example:} $\me^{-x}$ is a TST as $x \rightarrow \infty$. We need to show
+\begin{gather*}
+	\frac{\me^{-x}}{1/x^n} = \frac{x^n}{e^x} \rightarrow 0
+\end{gather*} 
+as $x \rightarrow \infty$. We can apply L'H\^opital's rule $n$ times. The numerator disappears wheras the denominator remains $\me^x$. Alternatively, look at
+\begin{gather*}
+	\ln (x^n \me^{-x}) = n \ln x - x
+\end{gather*}
+As $x \rightarrow \infty$ keeping $n$ fixed, this term goes to $-\infty$ ($x$ grows much faster than $\ln x$). Which implies the term inside the $\ln$ goes to zero.\\
+\ \newline
+Using this fact, we can show
+\begin{gather*}
+	\me^{-x} \sim a_0 + \frac{a_1}{x} + \frac{a_2}{x^2} + \frac{a_3}{x^3} + \dots 
+\end{gather*}
+(asymptotic power series in $1/x$, such as that derived in eqn. \ref{eqn:F_series}). The bizarre solution to the above becomes
+\begin{gather*}
+	\me^{-x} \sim 0 + \frac{0}{x} + \frac{0}{x^2} + \dots 
+\end{gather*}
+However, this is not an invalid solution since
+\begin{gather*}
+	R_n(x) = \me^{-x} \ll \frac{1}{x^n}
+\end{gather*}
+and this qualifies as an asymptotic expansion. This is odd since this makes the statement that the $\me^{-x}$ function is asymptotically indistinguishable from the zero function. This means that if
+\begin{gather*}
+	f(x) \sim \sum_{j=0}^{\infty} a_j x^{-j}
+\end{gather*}
+as $x \rightarrow \infty$, then, a new function
+\begin{gather*}
+	g(x) = f(x) + C\me^{-x}
+\end{gather*}
+i.e. defined by adding any (astronomical) amount of $\me^{-x}$ to $f(x)$, would still have the same asymptotic expansion as $f(x)$. TST\footnote{``Hyper-asymptotics" or ``asymptotics beyond all orders'' calculates these subdominant terms (research frontier).} are \underline{invisible} to an asymptotic power series and if present with big pre-factors, can cause issues. \\
+\ \newline
+Trouble occurs because $\me^{-z}$ is not analytic at $z = \infty$ in complex plane. It is an ``essential singularity''. 
+
+\paragraph{Comment 6} Asymptotic expansions can be added, subtracted, multiplied, divided and even intergated term by term. BUT need to be wary of \underline{substitution} and \underline{differentiation}. \\
+\ \newline
+\underline{Example (sub):} Suppose we have
+\begin{gather*}
+	f(x) = \me^{x^2} \\
+	x(\epsilon) = \frac{1}{\epsilon} + \epsilon
+\end{gather*}
+and we wish to consider $\epsilon \rightarrow 0$. The exact result
+\begin{align*}
+	f(x(\epsilon)) &= \exp \left[ \frac{1}{\epsilon^2} + 2 + \epsilon^2\right] \\
+	&= \me^{1/\epsilon^2}\me^2 \me^{\epsilon^2} \\
+	&= \me^{1/\epsilon^2}\me^2 \left(1 + \epsilon^2 + {\epsilon^4}/{2!} + \dots \right) \\
+	f(x(\epsilon)) & \sim \me^2 \me^{1/\epsilon^2}
+\end{align*}
+But what if we naively write
+\begin{gather*}
+	x(\epsilon) \sim \frac{1}{\epsilon} \qquad \text{as} \quad \epsilon \rightarrow 0
+\end{gather*}
+i.e. take asymptotic first and then substitute, we get
+\begin{gather*}
+	f(x(\epsilon)) \sim \me^{{1}/{\epsilon^2}}
+\end{gather*}
+which is not correct (missing the correct pre-factor $\me^2$).
+
+\paragraph{NB} In exponentials, may need to keep higher order terms -- not just the leading order terms. Same is true for $\sin$, $\cos$, $\sinh$, $\cosh$ (they are all exponentials in the complex plane). Refer back to the example of $\sqrt{9+\epsilon}$. If we replaced $\cos,\sin,\sin^2$ with $1,\epsilon,\epsilon^2$, we do not recover the same $\{a_j\}$ for this very reason -- the trignometric functions need care. \\
+\ \newline
+\underline{Example (diff):} Consider the example
+\begin{gather*}
+	f(x) = x + \sin x
+\end{gather*}
+as $x \rightarrow \infty$, $f(x) \sim x$ since $f(x)/x = 1 + \sin x/x \rightarrow 1$. But 
+\begin{gather*}
+	f'(x) = 1 + \cos x
+\end{gather*}
+whereas applying asymptotics first we see $f'(x) \sim 1$ (the correct result oscillates). Trouble because $\sin z$ has an essential singularity at $z = \infty$. \\
+\ \newline 
+\emph{Tauberian theorems} allow us to differentiate asymptotic forumlae. Roughly, if $f(z)$ is analytic in some sector on the complex plane, it is alright to differentiate term by term there. Also, if $f(z)$ and $f'(z)$ have asymptotic expansions in a $\{\phi_j\}$, alright to differentiate term by term.
+

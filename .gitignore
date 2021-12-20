@@ -1,0 +1,11 @@
+*.aux
+*.idx
+*.ilg
+*.ind
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.ist
