@@ -17,6 +17,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y latexml latexmk texlive-full
 
+      - name: Install latexpand
+        run: sudo apt-get install -y latexpand
+
+      - name: Expand LaTeX
+        run: latexpand main.tex > expanded.tex
+
       - name: Convert LaTeX to HTML (split into pages)
         run: |
           mkdir -p public
