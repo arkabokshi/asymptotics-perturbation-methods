@@ -1,0 +1,37 @@
+name: Build HTML (LaTeXML)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install LaTeXML + tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y latexml latexmk texlive-full
+
+      - name: Convert LaTeX to HTML (split into pages)
+        run: |
+          mkdir -p public
+          latexmlc main.tex \
+            --split \
+            --navigationtoc=context \
+            --mathimages=false \
+            --dest=public/index.html
+
+      - name: Add simple homepage title
+        run: |
+          sed -i 's/<title>.*<\/title>/<title>Asymptotics Notes<\/title>/g' public/index.html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
