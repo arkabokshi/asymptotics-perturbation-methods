@@ -1,40 +1,46 @@
-name: Build HTML (LaTeXML)
+name: Build HTML Site (LaTeXML)
 
 on:
   push:
     branches: [main]
+    paths:
+      - "**.tex"
+      - "**.bib"
+      - "**.sty"
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install LaTeXML + tools
+      - name: Install LaTeXML and tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexml latexmk texlive-full
+          sudo apt-get install -y latexml latexml-common
 
-      - name: Install latexpand
-        run: sudo apt-get install -y latexpand
+      - name: Expand LaTeX (handles \include cleanly)
+        run: |
+          sudo apt-get install -y latexpand
+          latexpand main.tex > expanded.tex
 
-      - name: Expand LaTeX
-        run: latexpand main.tex > expanded.tex
-
-      - name: Convert LaTeX to HTML (split into pages)
+      - name: Convert LaTeX → HTML (split site)
         run: |
           mkdir -p public
-          latexmlc main.tex \
+          latexmlc expanded.tex \
+            --dest=public/index.html \
             --split \
             --navigationtoc=context \
+            --tocdepth=2 \
             --mathimages=false \
-            --dest=public/index.html
+            --tolerant
 
-      - name: Add simple homepage title
+      - name: Add PDF download link (optional but useful)
         run: |
-          sed -i 's/<title>.*<\/title>/<title>Asymptotics Notes<\/title>/g' public/index.html
+          cp main.pdf public/ || true
+          echo '<p><a href="main.pdf">Download PDF version</a></p>' >> public/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
