@@ -8,6 +8,9 @@ on:
       - "**.bib"
       - "**.sty"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,14 +19,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install LaTeXML and tools
+      - name: Install LaTeXML and TeX tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y latexml latexml-common
+          sudo apt-get install -y latexml texlive-latex-extra texlive-extra-utils
 
       - name: Expand LaTeX (handles \include cleanly)
         run: |
-          sudo apt-get install -y latexpand
           latexpand main.tex > expanded.tex
 
       - name: Convert LaTeX → HTML (split site)
@@ -37,10 +39,17 @@ jobs:
             --mathimages=false \
             --tolerant
 
-      - name: Add PDF download link (optional but useful)
+      - name: (Optional) Build PDF
         run: |
-          cp main.pdf public/ || true
-          echo '<p><a href="main.pdf">Download PDF version</a></p>' >> public/index.html
+          sudo apt-get install -y latexmk
+          latexmk -pdf main.tex || true
+
+      - name: Add PDF download link (if PDF exists)
+        run: |
+          if [ -f main.pdf ]; then
+            cp main.pdf public/
+            echo '<p><a href="main.pdf">Download PDF version</a></p>' >> public/index.html
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
