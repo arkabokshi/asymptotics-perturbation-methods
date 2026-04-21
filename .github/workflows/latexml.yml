@@ -1,4 +1,4 @@
-name: Build HTML Site (LaTeXML)
+name: Build Site (LaTeXML + PDF)
 
 on:
   push:
@@ -19,16 +19,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --- Build PDF (your working method) ---
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: notes.tex
+
+      # --- Install LaTeXML ---
       - name: Install LaTeXML and TeX tools
         run: |
           sudo apt-get update
           sudo apt-get install -y latexml texlive-latex-extra texlive-extra-utils
 
-      - name: Expand LaTeX (handles \include cleanly)
+      # --- Expand LaTeX ---
+      - name: Expand LaTeX
         run: |
-          latexpand main.tex > expanded.tex
+          latexpand notes.tex > expanded.tex
 
-      - name: Convert LaTeX → HTML (split site)
+      # --- Convert to HTML ---
+      - name: Convert LaTeX → HTML
         run: |
           mkdir -p public
           latexmlc expanded.tex \
@@ -39,6 +48,13 @@ jobs:
             --mathimages=false \
             --tolerant
 
+      # --- Copy PDF into site ---
+      - name: Add PDF to site
+        run: |
+          cp notes.pdf public/
+          echo '<p><a href="notes.pdf">Download PDF version</a></p>' >> public/index.html
+
+      # --- Deploy to GitHub Pages ---
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
